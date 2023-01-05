@@ -42,6 +42,9 @@ body {
     font-family: 'Barlow Semi Condensed', sans-serif;
     color: whitesmoke;
     background: var(--Background);
+    background-repeat: no-repeat;
+    background-size: contain;
+    /* padding-top: 2rem; */
 }
 
 svg {
@@ -49,11 +52,56 @@ svg {
     display: block;
 }
 
+.heading {
+    text-transform: uppercase;
+}
+
+/*
+===============
+Rules Modal
+===============
+*/
+.rules-modal {
+    position: absolute;
+    z-index: 5;
+    width: 100vw;
+    height: 100vh;
+    background: whitesmoke;
+    color: var(--Dark-Text);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 1rem;
+    visibility: hidden;
+    transition: .3s;
+}
+
+.rules-modal h2 {
+    text-transform: uppercase;
+    font-size: 1.875rem;
+    font-weight: 700;
+    text-align: center;
+    position: relative;
+    top: -15%;
+}
+
+.rules-modal .close-icon__container {
+    position: relative;
+    bottom: -15%;
+    cursor: pointer;
+}
+
 /*
 ===============
 Header / Scoreboard
 ===============
 */
+/* Using this hack / hacky method to solve margin collapsing on the body and header elements */
+.header-wrapper {
+    padding-top: 2rem;
+}
+
 .header {
     width: 85%;
     border: 3px solid var(--Header-Outline);
@@ -62,7 +110,6 @@ Header / Scoreboard
     justify-content: space-between;
     align-items: center;
     margin: 0 auto;
-    margin-top: 2rem;
     margin-bottom: 5rem;
     padding: .75rem;
     padding-left: 1.25rem;
@@ -82,6 +129,7 @@ Header / Scoreboard
     /* padding: 1rem; */
     padding: .5rem 1.25rem;
     border-radius: 3px;
+    cursor: pointer;
 }
 
 .score span {
@@ -110,34 +158,35 @@ Main Content
     gap: 1rem;
 }
 
-.player-options__page .wrapper {
+ .wrapper {
     padding: 1rem;
     border-radius: 50%;
     cursor: pointer;
+    width: max-content;
 }
 
-.player-options__page .wrapper:active {
+ .wrapper:active {
     box-shadow: none;
     transform: translateY(5px);
 }
 
-.player-options__page .rock {
+ .rock {
     background: var(--Rock-Gradient);
     box-shadow: 0px 5px 0px 0px #9B1634;
     
 }
 
-.player-options__page .scissors {
+ .scissors {
     background: var(--Scissors-Gradient);
     box-shadow: 0px 5px 0px 0px #CA6B19;
 }
 
-.player-options__page .paper {
+ .paper {
     background: var(--Paper-Gradient);
     box-shadow: 0px 5px 0px 0px #2843C0;
 }
 
-.player-options__page .option {
+ .option {
     cursor: pointer;
     min-height: 6.25rem;
     width: 6.25rem;
@@ -149,6 +198,80 @@ Main Content
     justify-content: center;
     align-items: center;
     box-shadow: inset 0px 5px 0px 0px rgba(0,0,0,0.2);
+}
+
+/* Player Choices Evaluation Page */
+.evaluation-page .picked-options {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.eval-text {
+    font-weight: 600;
+    margin-top: 1.75rem;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.player {
+    position: relative;
+}
+
+.player::before {
+    content: '';
+    background: rgba(23, 31, 65, 0.7);
+    width: 80%;
+    height: 111px;
+    border-radius: 50%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 10px;
+    margin: 0 auto;
+    z-index: -5;
+}
+
+.isVisible {
+    visibility: hidden;
+}
+
+.winner::before {
+    box-shadow: 0px 0px 0px 26px rgba(45, 60, 91, 0.7),
+                0px 0px 0px 52px rgba(45, 60, 91, 0.5),
+                0px 0px 0px 78px rgba(45, 60, 91, 0.3);
+    /* transition: .5s; */
+}
+
+/* Results */
+.evaluation-page .results {
+    margin: 0 auto;
+    margin-top: 3.25rem;
+    width: fit-content;
+}
+
+.results .result-text {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.results .play-again__btn {
+    background: whitesmoke;
+    color: var(--Dark-Text);
+    width: 100%;
+    padding: .875rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Barlow Semi Condensed', sans-serif;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    cursor: pointer;
+    outline: none;
+}
+
+.results .play-again__btn:active {
+    transform: scale(0.95);
 }
 
 /* Rules Button */
@@ -166,6 +289,10 @@ Main Content
     padding: .625rem 2rem;
     display: inline-block;
     right: 35%;
+    /* right: 0;
+    left: 0;
+    margin: 0 auto;
+    width: max-content; */
     bottom: 50px;
     cursor: pointer;
 }
