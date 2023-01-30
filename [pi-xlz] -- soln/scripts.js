@@ -1,8 +1,5 @@
 const resetScoreBtn = document.getElementById('reset-score');
 const scoreCountEl = document.getElementById('score-count');
-const optionPaperEl = document.getElementById('option-paper');
-const optionScissorsEl = document.getElementById('option-scissors');
-const optionRockEl = document.getElementById('option-rock');
 const rulesModalBtn = document.getElementById('rulesBtn');
 const rulesModalEl = document.getElementById('rules-modal');
 const closeModalBtn = document.getElementById('close-modal');
@@ -12,10 +9,9 @@ const playerChoiceIcon = document.getElementById('player-choice__icon');
 const playerChoiceWrapperEl = document.getElementById('player-choice__wrapper');
 const computerChoiceIcon = document.getElementById('com-choice__icon');
 const computerChoiceWrapperEl = document.getElementById('com-choice__wrapper');
-const playerChoiceEl = document.getElementById('hooman');
-const computerChoiceEl = document.getElementById('house');
 const resultsEl = document.querySelector('.results');
 const roundResultText = document.getElementById('result-text');
+const restartBtn = document.getElementById('restart-btn');
 
 const choices = {
   rock: { name: 'Rock', defeats: ['scissors'] },
@@ -44,28 +40,33 @@ const icons = {
 
 const pick = (playerChoice) => {
   humanChoice = playerChoice;
-  console.log(playerChoice, humanChoice);
+  //// console.log(playerChoice, humanChoice);
   updateDOM(playerChoice);
 };
 
+// Update DOM and move to next page
 const updateDOM = (playerChoice) => {
   playerOptionsPageEl.style.display = 'none';
   evaluationPageEl.hidden = false;
   displayPlayerChoice(playerChoice);
 };
 
+// Display player's choice in the evaluations page
 const displayPlayerChoice = (playerChoice) => {
   // console.log(icons[playerChoice].src);
+  playerChoiceWrapperEl.classList.remove('scale-up-animation');
   playerChoiceIcon.src = icons[playerChoice].src;
   playerChoiceIcon.alt = icons[playerChoice].title;
-  playerChoice === 'rock'
-    ? playerChoiceWrapperEl.classList.add('rock', 'scale-up-animation')
-    : playerChoice === 'paper'
-    ? playerChoiceWrapperEl.classList.add('paper', 'scale-up-animation')
-    : playerChoiceWrapperEl.classList.add('scissors', 'scale-up-animation');
+  playerChoiceWrapperEl.classList.add(`${playerChoice}`, 'scale-up-animation');
+  // playerChoice === 'rock'
+  //   ? playerChoiceWrapperEl.classList.add('rock', 'scale-up-animation')
+  //   : playerChoice === 'paper'
+  //   ? playerChoiceWrapperEl.classList.add('paper', 'scale-up-animation')
+  //   : playerChoiceWrapperEl.classList.add('scissors', 'scale-up-animation');
   getComputerChoice();
 };
 
+// Get random computer choice
 const getComputerChoice = () => {
   //? Get a number between 0 and 11
   const computerChoiceNumber = Math.floor(Math.random() * 12);
@@ -80,37 +81,44 @@ const getComputerChoice = () => {
   displayComputerChoice(computerChoice);
 };
 
+// Display computer's choice in evaluations page
 const displayComputerChoice = (compChoice) => {
   //// console.log(compChoice);
+  computerChoiceWrapperEl.classList.remove('scale-up-animation');
   computerChoiceIcon.src = icons[compChoice].src;
   computerChoiceIcon.alt = icons[compChoice].title;
-  //// console.log(icons[compChoice].src);
   setTimeout(() => {
-    compChoice === 'rock'
-      ? computerChoiceWrapperEl.classList.add(
-          'rock',
-          'scale-up-animation',
-          'visible'
-        )
-      : compChoice === 'paper'
-      ? computerChoiceWrapperEl.classList.add(
-          'paper',
-          'scale-up-animation',
-          'visible'
-        )
-      : computerChoiceWrapperEl.classList.add(
-          'scissors',
-          'scale-up-animation',
-          'visible'
-        );
+    // compChoice === 'rock'
+    //   ? computerChoiceWrapperEl.classList.add(
+    //       'rock',
+    //       'scale-up-animation',
+    //       'visible'
+    //     )
+    //   : compChoice === 'paper'
+    //   ? computerChoiceWrapperEl.classList.add(
+    //       'paper',
+    //       'scale-up-animation',
+    //       'visible'
+    //     )
+    //   : computerChoiceWrapperEl.classList.add(
+    //       'scissors',
+    //       'scale-up-animation',
+    //       'visible'
+    //     );
+    computerChoiceWrapperEl.classList.add(
+      `${compChoice}`,
+      'scale-up-animation',
+      'visible'
+    );
   }, 3000);
-  console.log(compChoice, humanChoice);
+  // //console.log(compChoice, humanChoice);
   evaluateChoices(compChoice, humanChoice);
 };
 
+// Evaluate options picked and get winner/loser
 const evaluateChoices = (compChoice, playerChoice) => {
   // Get round results
-  console.log(compChoice, playerChoice);
+  //// console.log(compChoice, playerChoice);
   scoreCountEl.classList.remove('scale-up-animation-two');
   if (playerChoice === compChoice) {
     roundResultText.textContent = 'Draw!';
@@ -132,6 +140,15 @@ const evaluateChoices = (compChoice, playerChoice) => {
   }, 3000);
 };
 
+// Restart Game
+const resetPlayground = () => {
+  resultsEl.classList.remove('visible');
+  playerChoiceWrapperEl.classList.remove(`${humanChoice}`, 'visible');
+  computerChoiceWrapperEl.classList.remove(`${computerChoice}`, 'visible');
+  evaluationPageEl.hidden = true;
+  playerOptionsPageEl.style.display = 'flex';
+};
+
 // EVENT LISTENERS
 rulesModalBtn.addEventListener('click', () => {
   rulesModalEl.classList.add('visible');
@@ -139,4 +156,10 @@ rulesModalBtn.addEventListener('click', () => {
 
 closeModalBtn.addEventListener('click', () => {
   rulesModalEl.classList.remove('visible');
+});
+
+restartBtn.addEventListener('click', resetPlayground);
+resetScoreBtn.addEventListener('click', () => {
+  score = 0;
+  scoreCountEl.textContent = score.toString();
 });
